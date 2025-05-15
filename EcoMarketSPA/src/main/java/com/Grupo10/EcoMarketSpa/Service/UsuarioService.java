@@ -12,7 +12,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     //Listar Usuarios
-    public String getAllUSer(){
+    public String getAllUser(){
         String info = "";
 
         for (Usuario user:usuarioRepository.findAll()){
@@ -51,6 +51,29 @@ public class UsuarioService {
             return "Usuario Agregado Correctamente";
         }else{
             return "Usuario ya Existe";
+        }
+    }
+    //ELiminar Usuario
+    public String DeleteUser(int id){
+        if (usuarioRepository.existsById(id)){
+            usuarioRepository.deleteById(id);
+            return "Usuario eliminado correctamente";
+        }else{
+            return "Usuario no encontrado";
+        }
+    }
+    //Actualizar Usuario
+    public String updateUser(int id,Usuario user){
+        if (usuarioRepository.existsById(id)){
+            Usuario userUpdate = usuarioRepository.findById(id).get();
+            userUpdate.setNombreUsuario(user.getNombreUsuario());
+            userUpdate.setEmail(user.getEmail());
+            userUpdate.setPassword(user.getPassword());
+            userUpdate.setRol(user.getRol());
+            usuarioRepository.save(userUpdate);
+            return "Usuario actualizado correctamente";
+        }else {
+            return "Usuario no encontrado";
         }
     }
 }
