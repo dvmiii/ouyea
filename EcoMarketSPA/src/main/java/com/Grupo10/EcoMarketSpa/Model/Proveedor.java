@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,7 +23,6 @@ public class Proveedor {
     private int idproveedor;
     private String nombre;
     private String contacto;
-    private String productos_suministrados;
-    private List<Producto> productos;
+    private List<Producto> productos = new ArrayList<>();
 
 }

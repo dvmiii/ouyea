@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,10 +18,8 @@ public class RutaEntrega {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idRutaEntrega;
-
-
-    private List<RutaEntrega> rutaEntrega;
-    private String distancia_total;
-    private String tiempo_estimado;
+//Falta la Creacion de Ubicacion    private List<Ubicacion> rutaEntrega = new ArrayList<>();
+    private String distanciaTotal;
+    private String tiempoEstimado;
 
 }

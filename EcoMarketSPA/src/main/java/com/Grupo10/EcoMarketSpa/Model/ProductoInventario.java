@@ -1,6 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,13 @@ import lombok.NoArgsConstructor;
 @Entity
 
 public class ProductoInventario {
-    private String producto;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idProductoInventario;
+    @Transient
+    private Producto producto;
     private int cantidad;
-    private String fecha_actualizacion;
+    private String fechaActualizacion;
 
 }

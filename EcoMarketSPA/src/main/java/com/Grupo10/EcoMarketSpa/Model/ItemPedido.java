@@ -1,9 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +15,9 @@ import lombok.NoArgsConstructor;
 public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idproducto;
+    private int idItemPedido;
+    @Transient
+    private Producto productos;
     private int cantidad;
     private int precioUnitario;
 }

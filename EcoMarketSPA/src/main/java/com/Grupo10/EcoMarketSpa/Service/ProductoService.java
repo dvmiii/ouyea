@@ -10,7 +10,7 @@ public class ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
-    //Listar Producto
+    //Listar
     public String getAllProducto(){
         String info = "";
         for(Producto producto : productoRepository.findAll()){
@@ -27,7 +27,7 @@ public class ProductoService {
             return info;
         }
     }
-    //Buscar Producto por Id
+    //Buscar por Id
     public String getProductoById(int id){
         String info = "";
         if (productoRepository.existsById(id)){
@@ -43,7 +43,7 @@ public class ProductoService {
             return "No existe el producto";
         }
     }
-    //Agregar Producto
+    //Agregar
     public String addProducto(Producto producto){
         if (!productoRepository.existsById(producto.getIdProducto())){
             productoRepository.save(producto);
@@ -52,7 +52,7 @@ public class ProductoService {
             return "El producto ya existe";
         }
     }
-    //Eliminar Producto
+    //Eliminar
     public String deleteProducto(int id){
         if (productoRepository.existsById(id)){
             productoRepository.deleteById(id);
@@ -61,7 +61,7 @@ public class ProductoService {
             return "El producto no existe";
         }
     }
-    //Actualizar producto
+    //Actualizar
     public String updateProducto(int id,Producto producto){
         if (productoRepository.existsById(id)){
             Producto productoUpdate = productoRepository.findById(id).get();

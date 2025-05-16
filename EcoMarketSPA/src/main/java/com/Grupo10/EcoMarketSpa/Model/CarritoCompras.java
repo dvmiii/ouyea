@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,5 +21,5 @@ public class CarritoCompras {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String idcliente;
-    private List<ItemCarrito> itemCarritos;
+    private List<ItemCarrito> itemCarritos = new ArrayList<>();
 }

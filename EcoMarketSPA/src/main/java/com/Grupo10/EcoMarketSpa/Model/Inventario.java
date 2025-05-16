@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,6 +19,6 @@ public class Inventario {
     private String tienda;
 
     @OneToMany
-    private List<Inventario> InventarioList;
+    private List<Inventario> InventarioList = new ArrayList<>();
 
 }

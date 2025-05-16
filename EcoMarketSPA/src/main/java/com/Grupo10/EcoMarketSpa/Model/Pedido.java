@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,9 +21,9 @@ public class Pedido {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private int idPedido;
     private int idCliente;
-    private List<ItemPedido> itemPedidoList;
+    private List<ItemPedido> itemPedidoList = new ArrayList<>();
     private String estado;
-    private String fecha_pedido;
-    private String direccion_envio;
+    private String fechaPedido;
+    private String direccionEnvio;
 
 }

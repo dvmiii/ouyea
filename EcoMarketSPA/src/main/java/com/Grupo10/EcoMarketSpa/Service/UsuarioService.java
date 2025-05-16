@@ -11,7 +11,7 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    //Listar Usuarios
+    //Listar
     public String getAllUser(){
         String info = "";
 
@@ -28,7 +28,7 @@ public class UsuarioService {
             return info;
         }
     }
-    // Buscar Usuario por ID
+    // Buscar por ID
     public String getUserById(int id){
         String info = "";
         if (usuarioRepository.existsById(id)){
@@ -43,7 +43,7 @@ public class UsuarioService {
             return "Usuario no encontrado";
         }
     }
-    //Agregar Usuarios
+    //Agregar
     public String addUser(Usuario user){
 
         if(!usuarioRepository.existsById(user.getIdUsuario())){
@@ -53,7 +53,7 @@ public class UsuarioService {
             return "Usuario ya Existe";
         }
     }
-    //ELiminar Usuario
+    //ELiminar
     public String DeleteUser(int id){
         if (usuarioRepository.existsById(id)){
             usuarioRepository.deleteById(id);
@@ -62,7 +62,7 @@ public class UsuarioService {
             return "Usuario no encontrado";
         }
     }
-    //Actualizar Usuario
+    //Actualizar
     public String updateUser(int id,Usuario user){
         if (usuarioRepository.existsById(id)){
             Usuario userUpdate = usuarioRepository.findById(id).get();

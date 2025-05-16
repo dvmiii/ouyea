@@ -18,6 +18,6 @@ import lombok.NoArgsConstructor;
 public class ItemCarrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idproducto;
+    private int idItemCarrito;
     private int cantidad;
 }

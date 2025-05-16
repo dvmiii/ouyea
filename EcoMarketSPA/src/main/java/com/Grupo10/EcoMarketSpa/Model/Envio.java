@@ -18,8 +18,8 @@ public class Envio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idEnvio;
-    private String estado_envio;
-    private String fecha_envio;
-    private String fecha_entrega_estimada;
+    private String estadoEnvio;
+    private String fechaEnvio;
+    private String fechaEntregaEstimada;
     private String ruta;
 }

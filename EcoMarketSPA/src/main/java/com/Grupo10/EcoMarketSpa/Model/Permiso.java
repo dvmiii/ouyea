@@ -18,7 +18,6 @@ public class Permiso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPermiso;
-
     private String nombre;
     private String descripcion;
 }
