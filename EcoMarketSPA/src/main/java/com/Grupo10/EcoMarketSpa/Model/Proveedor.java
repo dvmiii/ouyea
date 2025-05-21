@@ -1,9 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +20,7 @@ public class Proveedor {
     private int idproveedor;
     private String nombre;
     private String contacto;
+    @OneToMany
     private List<Producto> productos = new ArrayList<>();
 
 }

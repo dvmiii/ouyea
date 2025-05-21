@@ -23,5 +23,6 @@ public class Tienda {
     private String ubicacion;
     private String horarioApertura;
     private String horarioCierre;
+    @OneToMany
     private List<Usuario> usuarios = new ArrayList<>();
 }

@@ -37,7 +37,7 @@ public class ProveedorService {
             info+="Productos: "+proveedor.getProductos()+"\n";
             return  info;
         }else{
-            return "No existen proveedores";
+            return "No existe proveedor";
         }
     }
     //Agregar
