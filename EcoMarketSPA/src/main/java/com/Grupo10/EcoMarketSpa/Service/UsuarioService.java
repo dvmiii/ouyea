@@ -54,7 +54,7 @@ public class UsuarioService {
         }
     }
     //ELiminar
-    public String DeleteUser(int id){
+    public String deleteUser(int id){
         if (usuarioRepository.existsById(id)){
             usuarioRepository.deleteById(id);
             return "Usuario eliminado correctamente";

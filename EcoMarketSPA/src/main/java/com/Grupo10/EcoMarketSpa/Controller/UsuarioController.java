@@ -29,7 +29,7 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable int id){
-        return usuarioService.DeleteUser(id);
+        return usuarioService.deleteUser(id);
     }
 
     @PutMapping("/{id}")
