@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/ItemCart")
 @Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
-public class ItemCartContrller {
+public class ItemCartController {
 
     @Autowired
     ItemCartService itemCartService;

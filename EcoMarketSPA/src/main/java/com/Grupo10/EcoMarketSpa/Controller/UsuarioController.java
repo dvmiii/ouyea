@@ -1,5 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Controller;
 
+import com.Grupo10.EcoMarketSpa.Assemblers.UserModelAssembler;
 import com.Grupo10.EcoMarketSpa.Model.Usuario;
 import com.Grupo10.EcoMarketSpa.Service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
