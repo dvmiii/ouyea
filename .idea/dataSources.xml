@@ -10,7 +10,7 @@
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="TNSADMIN_DIR" value="$PROJECT_DIR$/../../../Wallet" />
+        <property name="TNSADMIN_DIR" value="$USER_HOME$/Wallet" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
@@ -24,7 +24,7 @@
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
-        <property name="TNSADMIN_DIR" value="$PROJECT_DIR$/../../../WalletTest" />
+        <property name="TNSADMIN_DIR" value="$USER_HOME$/WalletTest" />
         <property name="com.intellij.clouds.kubernetes.db.container.port" />
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>

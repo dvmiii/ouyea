@@ -9,67 +9,88 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Permiso")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@Tag(name = "Permiso", description = "Servicios de gestión de permisos para EcoMarket SPA")
 public class PermisoController {
 
     @Autowired
     private PermisoService permisoService;
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
+    @Operation(summary = "Listar todos los permisos", description = "Servicio GET para obtener todos los permisos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Permisos encontrados"),
+            @ApiResponse(responseCode = "204", description = "No se encontraron permisos")
     })
-    public String getAllPermisos() {
-        return permisoService.getAllPermisos();
+    public ResponseEntity<String> getAllPermisos() {
+        String permisos = permisoService.getAllPermisos();
+        if (permisos.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(permisos);
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los productos")
+    @Operation(summary = "Agregar un permiso", description = "Servicio POST para crear un nuevo permiso")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "",
+            @ApiResponse(responseCode = "201", description = "Permiso creado exitosamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Permiso.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
-    public String addPermiso(@RequestBody Permiso permiso) {
-        return permisoService.addPermisos(permiso);
+    public ResponseEntity<String> addPermiso(@RequestBody Permiso permiso) {
+        String nuevoPermiso = permisoService.addPermisos(permiso);
+        return ResponseEntity.status(201).body(nuevoPermiso);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener permiso por ID", description = "Servicio GET para obtener un permiso específico por su ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Permiso encontrado"),
+            @ApiResponse(responseCode = "404", description = "Permiso no encontrado")
     })
-    public String getPermisoById(@PathVariable int id) {
-        return permisoService.getPermisosById(id);
+    public ResponseEntity<String> getPermisoById(@PathVariable int id) {
+        String permiso = permisoService.getPermisosById(id);
+        if (permiso != null) {
+            return ResponseEntity.ok(permiso);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Eliminar permiso", description = "Servicio DELETE para eliminar un permiso por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Permiso eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Permiso no encontrado")
     })
-    public String deletePermiso(@PathVariable int id) {
-        return permisoService.deletePermiso(id);
+    public ResponseEntity<String> deletePermiso(@PathVariable int id) {
+        boolean eliminado = Boolean.parseBoolean(permisoService.deletePermiso(id));
+        if (eliminado) {
+            return ResponseEntity.ok("Permiso eliminado correctamente");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar permiso", description = "Servicio PUT para actualizar un permiso existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "200", description = "Permiso actualizado correctamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Permiso.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "404", description = "Permiso no encontrado")
     })
-    public String updatePermiso(@PathVariable int id, @RequestBody Permiso permiso) {
-        return permisoService.updatePermiso(id, permiso);
+    public ResponseEntity<String> updatePermiso(@PathVariable int id, @RequestBody Permiso permiso) {
+        String actualizado = permisoService.updatePermiso(id, permiso);
+        if (actualizado != null) {
+            return ResponseEntity.ok(actualizado);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

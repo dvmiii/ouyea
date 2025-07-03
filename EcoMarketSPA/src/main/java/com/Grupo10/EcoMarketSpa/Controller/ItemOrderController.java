@@ -1,7 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Controller;
 
 import com.Grupo10.EcoMarketSpa.Model.ItemPedido;
-import com.Grupo10.EcoMarketSpa.Repository.ItemOrderRepository;
 import com.Grupo10.EcoMarketSpa.Service.ItemOrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,67 +9,88 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ItemOrder")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@Tag(name = "ItemPedido", description = "Servicios de gestión de ítems de pedidos para EcoMarket SPA")
 public class ItemOrderController {
 
     @Autowired
-    ItemOrderService itemOrderService;
+    private ItemOrderService itemOrderService;
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
+    @Operation(summary = "Listar todos los ítems de pedidos", description = "Servicio GET para obtener todos los ítems de pedidos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Ítems encontrados"),
+            @ApiResponse(responseCode = "204", description = "No hay ítems en el pedido")
     })
-    public String getAllItemOrder(){
-        return itemOrderService.getAllItemOrders();
+    public ResponseEntity<String> getAllItemOrder() {
+        String items = itemOrderService.getAllItemOrders();
+        if (items.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(items);
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Agregar ítem al pedido", description = "Servicio POST para agregar un ítem a un pedido")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Ítem agregado correctamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemPedido.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "400", description = "Datos inválidos")
     })
-    public String addItemOrder(@RequestBody ItemPedido itemOrder){
-        return itemOrderService.addItmOrder(itemOrder);
+    public ResponseEntity<String> addItemOrder(@RequestBody ItemPedido itemOrder) {
+        String nuevoItem = itemOrderService.addItmOrder(itemOrder);
+        return ResponseEntity.status(201).body(nuevoItem);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener ítem de pedido por ID", description = "Servicio GET para obtener un ítem de pedido específico")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Ítem encontrado"),
+            @ApiResponse(responseCode = "404", description = "Ítem no encontrado")
     })
-    public String getItemOrderById(@PathVariable int id) {
-        return itemOrderService.getItemOrderById(id);
+    public ResponseEntity<String> getItemOrderById(@PathVariable int id) {
+        String item = itemOrderService.getItemOrderById(id);
+        if (item != null) {
+            return ResponseEntity.ok(item);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Eliminar ítem de pedido", description = "Servicio DELETE para eliminar un ítem de pedido por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Ítem eliminado"),
+            @ApiResponse(responseCode = "404", description = "Ítem no encontrado")
     })
-    public String deleteItemOrder(@PathVariable int id) {
-        return itemOrderService.deleteItemOrder(id) ;
+    public ResponseEntity<String> deleteItemOrder(@PathVariable int id) {
+        boolean eliminado = Boolean.parseBoolean(itemOrderService.deleteItemOrder(id));
+        if (eliminado) {
+            return ResponseEntity.ok("Ítem eliminado correctamente");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar ítem de pedido", description = "Servicio PUT para actualizar un ítem de pedido existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "200", description = "Ítem actualizado correctamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemPedido.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "404", description = "Ítem no encontrado")
     })
-    public String updateItemOrder(@PathVariable int id, @RequestBody ItemPedido itemOrder) {
-        return itemOrderService.updateItemOrder(id, itemOrder);
+    public ResponseEntity<String> updateItemOrder(@PathVariable int id, @RequestBody ItemPedido itemOrder) {
+        String actualizado = itemOrderService.updateItemOrder(id, itemOrder);
+        if (actualizado != null) {
+            return ResponseEntity.ok(actualizado);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
