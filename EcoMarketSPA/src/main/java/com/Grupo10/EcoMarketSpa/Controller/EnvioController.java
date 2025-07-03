@@ -9,67 +9,72 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Envio")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@Tag(name = "Envios", description = "Servicios de gestión de envíos para EcoMarket SPA")
 public class EnvioController {
 
     @Autowired
     private EnvioService envioService;
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para  todos los productos existentes")
+    @Operation(summary = "Listar envíos", description = "Servicio GET para obtener todos los envíos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Envíos encontrados"),
+            @ApiResponse(responseCode = "404", description = "No se encuentran datos")
     })
-    public String getAllEnvios() {
-        return envioService.getAllEnvios();
+    public ResponseEntity<String> getAllEnvios() {
+        return ResponseEntity.ok(envioService.getAllEnvios());
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Crear un envío", description = "Servicio POST para crear un nuevo envío")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Envío creado correctamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Envio.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "400", description = "Error al crear el envío")
     })
-    public String addEnvio(@RequestBody Envio envio) {
-        return envioService.addEnvio(envio);
+    public ResponseEntity<String> addEnvio(@RequestBody Envio envio) {
+        String nuevoEnvio = envioService.addEnvio(envio);
+        return ResponseEntity.status(201).body(nuevoEnvio);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener envío por ID", description = "Servicio GET para obtener un envío específico")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Envío encontrado"),
+            @ApiResponse(responseCode = "404", description = "Envío no encontrado")
     })
-    public String getEnvioById(@PathVariable int id) {
-        return envioService.getEnvioById(id);
+    public ResponseEntity<? extends Object> getEnvioById(@PathVariable int id) {
+        String envio = envioService.getEnvioById(id);
+        return envio != null ? ResponseEntity.ok(envio) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Eliminar un envío", description = "Servicio DELETE para eliminar un envío por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
-            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+            @ApiResponse(responseCode = "200", description = "Envío eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Envío no encontrado")
     })
-    public String deleteEnvio(@PathVariable int id) {
-        return envioService.deleteEnvio(id);
+    public ResponseEntity<String> deleteEnvio(@PathVariable int id) {
+        boolean eliminado = Boolean.parseBoolean(envioService.deleteEnvio(id));
+        return eliminado ? ResponseEntity.ok("Envío eliminado") : ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar un envío", description = "Servicio PUT para actualizar un envío existente")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "200", description = "Envío actualizado correctamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Envio.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "404", description = "Envío no encontrado")
     })
-    public String updateEnvio(@PathVariable int id, @RequestBody Envio envio) {
-        return envioService.updateEnvio(id, envio);
+    public ResponseEntity<? extends Object> updateEnvio(@PathVariable int id, @RequestBody Envio envio) {
+        String envioActualizado = envioService.updateEnvio(id, envio);
+        return envioActualizado != null ? ResponseEntity.ok(envioActualizado) : ResponseEntity.notFound().build();
     }
 }
