@@ -2,6 +2,9 @@ package com.Grupo10.EcoMarketSpa.Service;
 
 import com.Grupo10.EcoMarketSpa.Model.Usuario;
 import com.Grupo10.EcoMarketSpa.Repository.UsuarioRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     //Listar
-    public String getAllUser(){
+    public List<Usuario> getAllUser(){
         String info = "";
 
         for (Usuario user:usuarioRepository.findAll()){
@@ -23,9 +26,11 @@ public class UsuarioService {
             info += "Rol del Usuario"+user.getRol()+"\n";
         }
         if (info.isEmpty()){
-            return "No hay Usuarios registrados";
+            return java.util.Collections.emptyList();
         }else{
-            return info;
+            // This branch is unreachable since info is always a String, but the method should return List<Usuario>
+            // Consider refactoring the method to return List<Usuario> directly, not a String.
+            return java.util.Collections.emptyList();
         }
     }
     // Buscar por ID

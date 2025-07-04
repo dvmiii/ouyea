@@ -10,8 +10,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class MetodoPagoModelAssembler implements RepresentationModelAssembler<MetodoPago, EntityModel<MetodoPago>> {
+    @SuppressWarnings("null")
     @Override
-    public EntityModel<MetodoPago> toModel(MetodoPago model) {
+    public EntityModel<MetodoPago> toModel(@SuppressWarnings("null") MetodoPago model) {
         return EntityModel.of(model,
                 linkTo(methodOn(MetodoPagoController.class).getMetodoPagoById(model.getIdMetodoPago())).withSelfRel(),
                 linkTo(methodOn(MetodoPagoController.class).getAllMetodoPagos()).withRel("GET")

@@ -10,6 +10,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class ProductoModelAssembler implements RepresentationModelAssembler<Producto, EntityModel<Producto>> {
+    @SuppressWarnings("null")
     @Override
     public EntityModel<Producto> toModel(Producto model) {
         return EntityModel.of(model,

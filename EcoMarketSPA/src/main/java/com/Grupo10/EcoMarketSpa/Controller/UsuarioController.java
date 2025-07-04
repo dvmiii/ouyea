@@ -1,5 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Controller;
 
+import com.Grupo10.EcoMarketSpa.Assemblers.UserModelAssembler;
 import com.Grupo10.EcoMarketSpa.Model.Usuario;
 import com.Grupo10.EcoMarketSpa.Service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,92 +9,85 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Usuario")
-@Tag(name = "Usuarios", description = "Servicios de gestión de usuarios para EcoMarket SPA")
+@Tag(name = "Usuarios",description = "Servicios de gestion de usuarios para EcoMarket SPA")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    // Obtener todos los usuarios
+    @Autowired
+    private UserModelAssembler assembler;
+
     @GetMapping
-    @Operation(summary = "Listar Usuarios", description = "Servicio GET para obtener todos los usuarios existentes")
+    @Operation(summary = "Obtener Usuarios",description = "Servicio GET para obtener todos los usuarios existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida correctamente"),
-            @ApiResponse(responseCode = "404", description = "No se encontraron usuarios")
+            @ApiResponse(responseCode = "200",description = "Retorna los Usuarios"),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getAllUser() {
-        String usuarios = usuarioService.getAllUser();
-        if (usuarios.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+     public CollectionModel<EntityModel<Usuario>> getAllUser(){
+        List<Usuario> usuariosList = (List<Usuario>) usuarioService.getAllUser();
+        List<EntityModel<Usuario>> usuarios = usuariosList
+                .stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(usuarios, linkTo(methodOn(UsuarioController.class).getAllUser()).withSelfRel());
     }
 
-    // Crear un nuevo usuario
     @PostMapping
-    @Operation(summary = "Crear Usuario", description = "Servicio POST para registrar un nuevo usuario")
+    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los usuarioss")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Usuario creado exitosamente",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = Usuario.class))),
-            @ApiResponse(responseCode = "400", description = "Error en los datos enviados")
+            @ApiResponse(responseCode = "201",description = "Usuario Creado",
+                         content = @Content(mediaType = "application/json",
+                                            schema = @Schema(implementation = Usuario.class))),
+            @ApiResponse(responseCode = "204",description = "No hay contenido en la solicitud")
     })
-    public ResponseEntity<String> addUser(@RequestBody Usuario usuario) {
-        String nuevoUsuario = usuarioService.addUser(usuario);
-        return new ResponseEntity<>(nuevoUsuario, HttpStatus.CREATED);
+    public String addUser(@RequestBody Usuario usuario){
+        return usuarioService.addUser(usuario);
     }
 
-    // Obtener un usuario por ID
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar Usuario por ID", description = "Servicio GET para obtener un usuario por su ID")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
-            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getUserById(@PathVariable int id) {
-        String usuario = usuarioService.getUserById(id);
-        if (usuario == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(usuario, HttpStatus.OK);
+    public String getUserById(@PathVariable int id){
+        return usuarioService.getUserById(id);
     }
 
-    // Eliminar usuario
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar Usuario", description = "Servicio DELETE para eliminar un usuario por ID")
+    @Operation(summary = "Obtener Productos",description = "Servicio DELETE para  los usuarios existentes segun el ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario eliminado exitosamente"),
-            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
-        boolean eliminado = Boolean.parseBoolean(usuarioService.deleteUser(id));
-        if (!eliminado) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    public String deleteUser(@PathVariable int id){
+        return usuarioService.deleteUser(id);
     }
 
-    // Actualizar usuario
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar Usuario", description = "Servicio PUT para actualizar los datos de un usuario existente")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente",
+            @ApiResponse(responseCode = "201",description = "Usuario Actualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Usuario.class))),
-            @ApiResponse(responseCode = "404", description = "Usuario no encontrado"),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos")
+            @ApiResponse(responseCode = "204",description = "No hay contenido en la solicitud")
     })
-    public ResponseEntity<Usuario> updateUser(@PathVariable int id,@RequestBody Usuario usuario) {
-        String actualizado = usuarioService.updateUser(id, usuario);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public String updateUser(@PathVariable int id, @RequestBody Usuario usuario){
+        return usuarioService.updateUser(id, usuario);
     }
 }

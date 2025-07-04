@@ -10,10 +10,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class ItemCartModelAssembler implements RepresentationModelAssembler<ItemCarrito, EntityModel<ItemCarrito>> {
+    @SuppressWarnings("null")
     @Override
-    public EntityModel<ItemCarrito> toModel(ItemCarrito model) {
-        return EntityModel.of(model,
-                linkTo(methodOn(ItemCartController.class).getItemCartById(model.getIdItemCarrito())).withSelfRel(),
+    public EntityModel<ItemCarrito> toModel(@SuppressWarnings("null") ItemCarrito saved) {
+        return EntityModel.of(saved,
+                linkTo(methodOn(ItemCartController.class).getItemCartById(saved.getIdItemCarrito())).withSelfRel(),
                 linkTo(methodOn(ItemCartController.class).getAllItemCart()).withRel("GET")
         );
     }

@@ -1,7 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Service;
 
 import com.Grupo10.EcoMarketSpa.Model.Pedido;
-import com.Grupo10.EcoMarketSpa.Model.Proveedor;
 import com.Grupo10.EcoMarketSpa.Repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

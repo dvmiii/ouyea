@@ -1,5 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Controller;
 
+import com.Grupo10.EcoMarketSpa.Assemblers.MetodoPagoModelAssembler;
 import com.Grupo10.EcoMarketSpa.Model.MetodoPago;
 import com.Grupo10.EcoMarketSpa.Service.MetodoPagoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,89 +9,84 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/MetodoPago")
-@Tag(name = "MetodoPago", description = "Servicios de gestión de métodos de pago para EcoMarket SPA")
+@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
 public class MetodoPagoController {
 
     @Autowired
     private MetodoPagoService metodoPagoService;
 
+    @Autowired
+    private MetodoPagoModelAssembler assembler;
+
     @GetMapping
-    @Operation(summary = "Listar todos los métodos de pago", description = "Servicio GET para obtener todos los métodos de pago")
+    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Métodos de pago encontrados"),
-            @ApiResponse(responseCode = "204", description = "No se encontraron métodos de pago")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getAllMetodoPagos() {
-        String metodos = metodoPagoService.getAllMetodosPagos();
-        if (metodos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(metodos);
+        public CollectionModel<EntityModel<MetodoPago>> getAllMetodoPagos() {
+        List<MetodoPago> metodoPagoList = (List<MetodoPago>) metodoPagoService.getAllMetodosPagos();
+        List<EntityModel<MetodoPago>> metodos = metodoPagoList.stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(metodos, linkTo(methodOn(MetodoPagoController.class).getAllMetodoPagos()).withSelfRel());
     }
 
     @PostMapping
-    @Operation(summary = "Agregar un nuevo método de pago", description = "Servicio POST para agregar un método de pago")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Método de pago creado exitosamente",
+            @ApiResponse(responseCode = "201", description = "",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = MetodoPago.class))),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos")
+            @ApiResponse(responseCode = "204", description = "")
     })
-    public ResponseEntity<String> addMetodoPago(@RequestBody MetodoPago metodoPago) {
-        String nuevoMetodo = metodoPagoService.addMetodoPago(metodoPago);
-        return ResponseEntity.status(201).body(nuevoMetodo);
+    public String addMetodoPago(@RequestBody MetodoPago metodoPago) {
+        return metodoPagoService.addMetodoPago(metodoPago);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener método de pago por ID", description = "Servicio GET para obtener un método de pago específico")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Método de pago encontrado"),
-            @ApiResponse(responseCode = "404", description = "Método de pago no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getMetodoPagoById(@PathVariable int id) {
-        String metodo = metodoPagoService.getMetodoPagoById(id);
-        if (metodo != null) {
-            return ResponseEntity.ok(metodo);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String getMetodoPagoById(@PathVariable int id) {
+        return metodoPagoService.getMetodoPagoById(id);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar método de pago", description = "Servicio DELETE para eliminar un método de pago por ID")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Método de pago eliminado"),
-            @ApiResponse(responseCode = "404", description = "Método de pago no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> deleteMetodoPago(@PathVariable int id) {
-        boolean eliminado = Boolean.parseBoolean(metodoPagoService.deleteMetodoPago(id));
-        if (eliminado) {
-            return ResponseEntity.ok("Método de pago eliminado correctamente");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String deleteMetodoPago(@PathVariable int id) {
+        return metodoPagoService.deleteMetodoPago(id);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar método de pago", description = "Servicio PUT para actualizar un método de pago existente")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Método de pago actualizado correctamente",
+            @ApiResponse(responseCode = "200", description = "",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = MetodoPago.class))),
-            @ApiResponse(responseCode = "404", description = "Método de pago no encontrado")
+            @ApiResponse(responseCode = "204", description = "")
     })
-    public ResponseEntity<String> updateMetodoPago(@PathVariable int id, @RequestBody MetodoPago metodoPago) {
-        String actualizado = metodoPagoService.updateMetodoPago(id, metodoPago);
-        if (actualizado != null) {
-            return ResponseEntity.ok(actualizado);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String updateMetodoPago(@PathVariable int id, @RequestBody MetodoPago metodoPago) {
+        return metodoPagoService.updateMetodoPago(id, metodoPago);
     }
 }

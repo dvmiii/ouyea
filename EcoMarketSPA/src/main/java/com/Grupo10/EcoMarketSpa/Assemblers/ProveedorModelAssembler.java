@@ -10,8 +10,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class ProveedorModelAssembler implements RepresentationModelAssembler<Proveedor, EntityModel<Proveedor>> {
+    @SuppressWarnings("null")
     @Override
-    public EntityModel<Proveedor> toModel(Proveedor model) {
+    public EntityModel<Proveedor> toModel(@SuppressWarnings("null") Proveedor model) {
         return EntityModel.of(model,
                 linkTo(methodOn(ProveedorController.class).getProveedorById(model.getIdproveedor())).withSelfRel(),
                 linkTo(methodOn(ProveedorController.class).getAllProveedores()).withRel("GET")

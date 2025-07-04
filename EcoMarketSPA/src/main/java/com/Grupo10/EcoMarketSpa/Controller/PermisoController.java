@@ -1,5 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Controller;
 
+import com.Grupo10.EcoMarketSpa.Assemblers.PermisoModelAssembler;
 import com.Grupo10.EcoMarketSpa.Model.Permiso;
 import com.Grupo10.EcoMarketSpa.Service.PermisoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,89 +9,86 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/Permiso")
-@Tag(name = "Permiso", description = "Servicios de gestión de permisos para EcoMarket SPA")
+@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
 public class PermisoController {
 
     @Autowired
     private PermisoService permisoService;
 
+    
+    @Autowired
+    private PermisoModelAssembler assembler;
+
     @GetMapping
-    @Operation(summary = "Listar todos los permisos", description = "Servicio GET para obtener todos los permisos existentes")
+    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Permisos encontrados"),
-            @ApiResponse(responseCode = "204", description = "No se encontraron permisos")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getAllPermisos() {
-        String permisos = permisoService.getAllPermisos();
-        if (permisos.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(permisos);
+   public CollectionModel<EntityModel<Permiso>> getAllPermisos() {
+        List<Permiso> permisoList = (List<Permiso>) permisoService.getAllPermisos();
+        List<EntityModel<Permiso>> permisos = permisoList
+                .stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(permisos, linkTo(methodOn(PermisoController.class).getAllPermisos()).withSelfRel());
     }
 
     @PostMapping
-    @Operation(summary = "Agregar un permiso", description = "Servicio POST para crear un nuevo permiso")
+    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los productos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Permiso creado exitosamente",
+            @ApiResponse(responseCode = "202", description = "",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Permiso.class))),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos")
+            @ApiResponse(responseCode = "204", description = "")
     })
-    public ResponseEntity<String> addPermiso(@RequestBody Permiso permiso) {
-        String nuevoPermiso = permisoService.addPermisos(permiso);
-        return ResponseEntity.status(201).body(nuevoPermiso);
+    public String addPermiso(@RequestBody Permiso permiso) {
+        return permisoService.addPermisos(permiso);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener permiso por ID", description = "Servicio GET para obtener un permiso específico por su ID")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Permiso encontrado"),
-            @ApiResponse(responseCode = "404", description = "Permiso no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getPermisoById(@PathVariable int id) {
-        String permiso = permisoService.getPermisosById(id);
-        if (permiso != null) {
-            return ResponseEntity.ok(permiso);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String getPermisoById(@PathVariable int id) {
+        return permisoService.getPermisosById(id);
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar permiso", description = "Servicio DELETE para eliminar un permiso por ID")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Permiso eliminado correctamente"),
-            @ApiResponse(responseCode = "404", description = "Permiso no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> deletePermiso(@PathVariable int id) {
-        boolean eliminado = Boolean.parseBoolean(permisoService.deletePermiso(id));
-        if (eliminado) {
-            return ResponseEntity.ok("Permiso eliminado correctamente");
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String deletePermiso(@PathVariable int id) {
+        return permisoService.deletePermiso(id);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar permiso", description = "Servicio PUT para actualizar un permiso existente")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Permiso actualizado correctamente",
+            @ApiResponse(responseCode = "201", description = "",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Permiso.class))),
-            @ApiResponse(responseCode = "404", description = "Permiso no encontrado")
+            @ApiResponse(responseCode = "204", description = "")
     })
-    public ResponseEntity<String> updatePermiso(@PathVariable int id, @RequestBody Permiso permiso) {
-        String actualizado = permisoService.updatePermiso(id, permiso);
-        if (actualizado != null) {
-            return ResponseEntity.ok(actualizado);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public String updatePermiso(@PathVariable int id, @RequestBody Permiso permiso) {
+        return permisoService.updatePermiso(id, permiso);
     }
 }

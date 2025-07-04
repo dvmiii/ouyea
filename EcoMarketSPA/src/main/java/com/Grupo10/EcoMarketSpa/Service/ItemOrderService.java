@@ -1,7 +1,11 @@
 package com.Grupo10.EcoMarketSpa.Service;
 
+
 import com.Grupo10.EcoMarketSpa.Model.ItemPedido;
 import com.Grupo10.EcoMarketSpa.Repository.ItemOrderRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,19 +16,9 @@ public class ItemOrderService {
     private ItemOrderRepository itemOrderRepository;
 
     //Listar
-    public String getAllItemOrders() {
-        String info="";
-        for (ItemPedido itemPedido:itemOrderRepository.findAll()){
-            info+="Id Item pedido: "+itemPedido.getIdItemPedido()+"\n";
-            info+="Producto pedido: "+itemPedido.getProductos()+"\n";
-            info+="Cantidad: "+itemPedido.getCantidad()+"\n";
-            info+="Precio unitario: "+itemPedido.getPrecioUnitario()+"\n";
-        }
-        if (info.isEmpty()){
-            return "No existen item pedido";
-        }else{
-            return info;
-        }
+    public List<ItemPedido> getAllItemOrders() {
+        List<ItemPedido> items = itemOrderRepository.findAll();
+        return items;
     }
     //Buscar por Id
     public String getItemOrderById(int id){

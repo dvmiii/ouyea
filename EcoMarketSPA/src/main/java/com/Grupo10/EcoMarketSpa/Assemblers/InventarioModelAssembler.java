@@ -10,11 +10,18 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class InventarioModelAssembler implements RepresentationModelAssembler<Inventario, EntityModel<Inventario>> {
+    public Object toModel;
+
+    @SuppressWarnings("null")
     @Override
     public EntityModel<Inventario> toModel(Inventario model) {
         return EntityModel.of(model,
                 linkTo(methodOn(InventarioController.class).getInventarioById(model.getId())).withSelfRel(),
-                linkTo(methodOn(InventarioController.class).getAllInventario()).withRel("GET")
+                linkTo(methodOn(InventarioController.class).getAllInventarios()).withRel("GET")
         );
+    }
+
+    public EntityModel<Inventario> toModel(String inventario) {
+        return null;
     }
 }

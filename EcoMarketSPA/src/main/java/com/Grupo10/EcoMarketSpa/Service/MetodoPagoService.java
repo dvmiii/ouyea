@@ -2,6 +2,9 @@ package com.Grupo10.EcoMarketSpa.Service;
 
 import com.Grupo10.EcoMarketSpa.Model.MetodoPago;
 import com.Grupo10.EcoMarketSpa.Repository.MetodoPagoRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,18 +15,8 @@ public class MetodoPagoService {
     private MetodoPagoRepository metodoPagoRepository;
 
     //Listar
-    public String getAllMetodosPagos(){
-        String info="";
-        for(MetodoPago metodoPago:metodoPagoRepository.findAll()){
-            info+="Id Metodo de Pago: "+metodoPago.getIdMetodoPago()+"\n";
-            info+="Tipo de Metodo de Pago: "+metodoPago.getTipo()+"\n";
-            info+="Detalles del Metodo de Pago: "+metodoPago.getDetalles()+"\n";
-        }
-        if (info.isEmpty()){
-            return "No existe Ningun Metodo de Pago";
-        }else{
-            return info;
-        }
+    public List<MetodoPago> getAllMetodosPagos(){
+        return metodoPagoRepository.findAll();
     }
     //Buscar por Id
     public String getMetodoPagoById(int id){

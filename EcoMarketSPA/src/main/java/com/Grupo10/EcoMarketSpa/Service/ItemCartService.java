@@ -2,6 +2,9 @@ package com.Grupo10.EcoMarketSpa.Service;
 
 import com.Grupo10.EcoMarketSpa.Model.ItemCarrito;
 import com.Grupo10.EcoMarketSpa.Repository.ItemCartRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,38 +14,30 @@ public class ItemCartService {
     @Autowired
     private ItemCartRepository itemCartRepository;
 
+
     //Listar
-    public String getAllItemCarts(){
-        String info="";
-        for (ItemCarrito itemCarrito:itemCartRepository.findAll()){
-            info+="Id Item Carrito: "+itemCarrito.getIdItemCarrito()+"\n";
-            info+="Cantidad: "+itemCarrito.getCantidad()+"\n";
-        }
-        if (info.isEmpty()){
-            return "No existen item en el Carrito";
-        }else{
-            return info;
+    public List<ItemCarrito> getAllItemCarts(){
+        if (!itemCartRepository.findAll().iterator().hasNext()){
+            return java.util.Collections.emptyList();
+        } else {
+            return itemCartRepository.findAll();
         }
     }
     //Buscar por Id
-    public String getItemCartById(int id){
-        String info="";
+    public ItemCarrito getItemCartById(int id){
         if (itemCartRepository.existsById(id)){
-            ItemCarrito itemCarrito=itemCartRepository.findById(id).get();
-            info+="Id Item Carrito: "+itemCarrito.getIdItemCarrito()+"\n";
-            info+="Cantidad: "+itemCarrito.getCantidad()+"\n";
-            return  info;
+            ItemCarrito itemCarrito = itemCartRepository.findById(id).get();
+            return itemCarrito;
         }else{
-            return "No existen item en el Carrito";
+            return null;
         }
     }
     //Agregar
-    public String addItemCart(ItemCarrito itemCarrito){
+    public ItemCarrito addItemCart(ItemCarrito itemCarrito){
         if (!itemCartRepository.existsById(itemCarrito.getIdItemCarrito())){
-            itemCartRepository.save(itemCarrito);
-            return "Item Carrito agregado correctamente";
+            return itemCartRepository.save(itemCarrito);
         }else{
-            return "El item carrito ya existe";
+            return null;
         }
     }
     //Eliminar

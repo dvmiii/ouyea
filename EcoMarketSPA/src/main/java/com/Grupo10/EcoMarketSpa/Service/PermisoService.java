@@ -2,6 +2,9 @@ package com.Grupo10.EcoMarketSpa.Service;
 
 import com.Grupo10.EcoMarketSpa.Model.Permiso;
 import com.Grupo10.EcoMarketSpa.Repository.PermisoRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +15,7 @@ public class PermisoService {
     private PermisoRepository permisoRepository;
 
     //Listar
-    public String getAllPermisos(){
+    public List<Permiso> getAllPermisos(){
         String info="";
         for (Permiso permiso : permisoRepository.findAll()) {
             info+="Id permiso: "+permiso.getIdPermiso()+"\n";
@@ -20,9 +23,9 @@ public class PermisoService {
             info+="Descripcion permiso: "+permiso.getDescripcion()+"\n";
         }
         if (info.isEmpty()){
-            return "No hay permisos";
+            return java.util.Collections.emptyList();
         }else{
-            return info;
+            return permisoRepository.findAll();
         }
     }
     //Buscar por Id

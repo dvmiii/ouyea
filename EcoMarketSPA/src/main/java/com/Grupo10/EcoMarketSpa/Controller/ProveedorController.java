@@ -1,5 +1,6 @@
 package com.Grupo10.EcoMarketSpa.Controller;
 
+import com.Grupo10.EcoMarketSpa.Assemblers.ProveedorModelAssembler;
 import com.Grupo10.EcoMarketSpa.Model.Proveedor;
 import com.Grupo10.EcoMarketSpa.Service.ProveedorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,92 +10,74 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/Proveedor")
-@Tag(name = "Proveedores", description = "Servicios de gestión de proveedores para EcoMarket SPA")
+@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
 public class ProveedorController {
 
-    @Autowired
-    private ProveedorService proveedorService;
+    private final ProveedorService proveedorService;
+    private final ProveedorModelAssembler assembler;
 
-    // Obtener todos los proveedores
-    @GetMapping
-    @Operation(summary = "Listar Proveedores", description = "Servicio GET para obtener todos los proveedores registrados")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Lista de proveedores obtenida correctamente"),
-            @ApiResponse(responseCode = "404", description = "No se encontraron proveedores")
-    })
-    public ResponseEntity<String> getAllProveedores() {
-        String proveedores = proveedorService.getAllProveedores();
-        if (proveedores.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(proveedores, HttpStatus.OK);
+    @Autowired
+    public ProveedorController(ProveedorService proveedorService, ProveedorModelAssembler assembler) {
+        this.proveedorService = proveedorService;
+        this.assembler = assembler;
     }
 
-    // Crear un proveedor
-    @PostMapping
-    @Operation(summary = "Crear Proveedor", description = "Servicio POST para registrar un nuevo proveedor")
+    @GetMapping
+    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Proveedor creado exitosamente",
+            @ApiResponse(responseCode = "200",description = "Retorna los Productos"),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+    })
+    public String getAllProveedores() {
+        return proveedorService.getAllProveedores();  
+    }
+
+    @PostMapping
+    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los productos")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Proveedor.class))),
-            @ApiResponse(responseCode = "400", description = "Error en los datos proporcionados")
+            @ApiResponse(responseCode = "204", description = "")
     })
-    public ResponseEntity<String> addProveedor(@RequestBody Proveedor proveedor) {
-        String nuevoProveedor = proveedorService.addProveedor(proveedor);
-        return new ResponseEntity<>(nuevoProveedor, HttpStatus.CREATED);
+    public String addProveedor(@RequestBody Proveedor proveedor) {
+        return proveedorService.addProveedor(proveedor);  
     }
 
-    // Obtener un proveedor por ID
     @GetMapping("/{id}")
-    @Operation(summary = "Buscar Proveedor por ID", description = "Servicio GET para obtener un proveedor específico por su ID")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Proveedor encontrado"),
-            @ApiResponse(responseCode = "404", description = "Proveedor no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<String> getProveedorById(@PathVariable int id) {
-        String proveedor = proveedorService.getProveedorById(id);
-        if (proveedor == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(proveedor, HttpStatus.OK);
+    public String getProveedorById(@PathVariable int id) {
+        return proveedorService.getProveedorById(id);  
     }
 
-    // Eliminar proveedor
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar Proveedor", description = "Servicio DELETE para eliminar un proveedor por su ID")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Proveedor eliminado correctamente"),
-            @ApiResponse(responseCode = "404", description = "Proveedor no encontrado")
+            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
-    public ResponseEntity<Void> deleteProveedor(@PathVariable int id) {
-        boolean eliminado = Boolean.parseBoolean(proveedorService.deleteProveedor(id));
-        if (!eliminado) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    public String deleteProveedor(@PathVariable int id) {
+        return proveedorService.deleteProveedor(id); 
     }
 
-    // Actualizar proveedor
     @PutMapping("/{id}")
-    @Operation(summary = "Actualizar Proveedor", description = "Servicio PUT para actualizar un proveedor existente")
+    @Operation(summary = "Obtener Productos",description = "")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Proveedor actualizado exitosamente"),
-            @ApiResponse(responseCode = "404", description = "Proveedor no encontrado"),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos")
+            @ApiResponse(responseCode = "201", description = "",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Proveedor.class))),
+            @ApiResponse(responseCode = "204", description = "")
     })
-    public ResponseEntity<String> updateProveedor(@PathVariable int id, @RequestBody Proveedor proveedor) {
-        String proveedorActualizado = proveedorService.updateProveedor(id, proveedor);
-        if (proveedorActualizado == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(proveedorActualizado, HttpStatus.OK);
+    public String updateProveedor(@PathVariable int id, @RequestBody Proveedor proveedor) {
+        return proveedorService.updateProveedor(id, proveedor); 
     }
 }
 

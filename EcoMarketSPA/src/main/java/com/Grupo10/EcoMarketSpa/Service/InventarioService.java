@@ -5,14 +5,21 @@ import com.Grupo10.EcoMarketSpa.Repository.InventarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InventarioService {
 
     @Autowired
-    private InventarioRepository inventarioRepository;
+    private static InventarioRepository inventarioRepository;
+
+    public List<Inventario> getAllInventarios() {
+            return null;
+        
+    }
 
     //Listar
-    public String getAllInventarios(){
+    public String getAllInventariosInfo(){
         String info="";
         for (Inventario inventario:inventarioRepository.findAll()){
             info+="Id Inventario: "+inventario.getId()+"\n";

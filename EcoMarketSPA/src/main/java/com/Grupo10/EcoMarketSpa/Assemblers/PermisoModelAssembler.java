@@ -10,8 +10,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Component
 public class PermisoModelAssembler implements RepresentationModelAssembler<Permiso, EntityModel<Permiso>> {
+    @SuppressWarnings("null")
     @Override
-    public EntityModel<Permiso> toModel(Permiso model) {
+    public EntityModel<Permiso> toModel(@SuppressWarnings("null") Permiso model) {
         return EntityModel.of(model,
                 linkTo(methodOn(PermisoController.class).getPermisoById(model.getIdPermiso())).withSelfRel(),
                 linkTo(methodOn(PermisoController.class).getAllPermisos()).withRel("GET")
