@@ -1,4 +1,5 @@
 package com.Grupo10.EcoMarketSpa.Model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,6 @@ public class Inventario {
     private String tienda;
 
     @OneToMany
-    private List<Inventario> InventarioList = new ArrayList<>();
+    private List<Producto> InventarioList = new ArrayList<>();
 
 }

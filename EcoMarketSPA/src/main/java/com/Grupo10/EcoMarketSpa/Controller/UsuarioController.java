@@ -48,7 +48,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los usuarioss")
+    @Operation(summary = "Agregar Usuarios",description = "Servicio POST para crear los usuarios")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",description = "Usuario Creado",
                          content = @Content(mediaType = "application/json",
@@ -60,9 +60,9 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener Usuario",description = "Servicio GET para Obtener los usuarios por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Rol Retornado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String getUserById(@PathVariable int id){
@@ -70,9 +70,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "Servicio DELETE para  los usuarios existentes segun el ID")
+    @Operation(summary = "Eliminar Usuario",description = "Servicio DELETE para  los usuarios existentes segun el ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Usuario Eliminado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String deleteUser(@PathVariable int id){
@@ -80,7 +80,7 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar Usuario",description = "Servicio PUT para los usuarios existentes segun el ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",description = "Usuario Actualizado",
                     content = @Content(mediaType = "application/json",

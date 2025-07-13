@@ -16,8 +16,8 @@ import java.util.List;
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @OneToMany
-    private List<Permiso> permisoList = new ArrayList<>();
+    private int idRol;
+    private String nombreRol;
+    @Transient
+    private Permiso idPermiso;
 }

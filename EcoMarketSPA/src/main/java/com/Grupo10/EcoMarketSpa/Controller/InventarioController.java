@@ -58,7 +58,6 @@ public class InventarioController {
         );
     }
 
-
     @Operation(summary = "Obtener un registro de inventario por ID", description = "Servicio GET para obtener un producto del inventario específico por su ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Registro encontrado",

@@ -23,14 +23,12 @@ public class UsuarioService {
             info += "Nombre: "+user.getNombreUsuario()+"\n";
             info += "Email: "+user.getEmail()+"\n";
             info += "Contraseña: "+user.getPassword()+"\n";
-            info += "Rol del Usuario"+user.getRol()+"\n";
+            info += "Rol del Usuario"+user.getIdRol()+"\n";
         }
         if (info.isEmpty()){
             return java.util.Collections.emptyList();
         }else{
-            // This branch is unreachable since info is always a String, but the method should return List<Usuario>
-            // Consider refactoring the method to return List<Usuario> directly, not a String.
-            return java.util.Collections.emptyList();
+            return usuarioRepository.findAll();
         }
     }
     // Buscar por ID
@@ -42,7 +40,7 @@ public class UsuarioService {
             info += "Nombre: "+user.getNombreUsuario()+"\n";
             info += "Email: "+user.getEmail()+"\n";
             info += "Contraseña: "+user.getPassword()+"\n";
-            info += "Rol del Usuario"+user.getRol()+"\n";
+            info += "Rol del Usuario"+user.getIdRol()+"\n";
             return info;
         }else{
             return "Usuario no encontrado";
@@ -74,7 +72,7 @@ public class UsuarioService {
             userUpdate.setNombreUsuario(user.getNombreUsuario());
             userUpdate.setEmail(user.getEmail());
             userUpdate.setPassword(user.getPassword());
-            userUpdate.setRol(user.getRol());
+            userUpdate.setIdRol(user.getIdRol());
             usuarioRepository.save(userUpdate);
             return "Usuario actualizado correctamente";
         }else {
