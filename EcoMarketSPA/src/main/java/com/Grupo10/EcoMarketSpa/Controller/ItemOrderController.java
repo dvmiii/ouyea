@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/ItemOrder")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@Tag(name = "Item Pedido",description = "Servicios de gestion de item pedido para EcoMarket SPA")
 public class ItemOrderController {
 
     @Autowired
@@ -32,7 +32,12 @@ public class ItemOrderController {
     @Autowired
     private ItemOrderModelAssembler assembler;
 
-   @GetMapping("/cart")
+   @Operation(summary = "Obtener Item Pedido",description = "Servicio GET para obtener todos los item pedido existentes")
+   @ApiResponses(value = {
+           @ApiResponse(responseCode = "200",description = "Retorna los Item Pedido"),
+           @ApiResponse(responseCode = "404",description = "No se encuentran datos")
+   })
+   @GetMapping()
    public CollectionModel<EntityModel<ItemPedido>> getAllItemCart(){
         List<ItemPedido> itemPedidos = itemOrderService.getAllItemOrders();
         List<EntityModel<ItemPedido>> items = itemPedidos
@@ -43,21 +48,21 @@ public class ItemOrderController {
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Agregar Item Pedido",description = "Servicio POST para agregar todos los item pedido")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Item Pedido Agregado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemPedido.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String addItemOrder(@RequestBody ItemPedido itemOrder){
         return itemOrderService.addItmOrder(itemOrder);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener Item Pedido",description = "Servicio GET para obtener los item pedido por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "obtener Item Pedido"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String getItemOrderById(@PathVariable int id) {
@@ -65,9 +70,9 @@ public class ItemOrderController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Eliminar Item Pedido",description = "Servicio DELETE para eliminar los item pedido por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Item Pedido Eliminado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String deleteItemOrder(@PathVariable int id) {
@@ -75,12 +80,12 @@ public class ItemOrderController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar Item Pedido",description = "Servicio PUT para actualizar los item pedido por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Item Pedido Actualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemPedido.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String updateItemOrder(@PathVariable int id, @RequestBody ItemPedido itemOrder) {
         return itemOrderService.updateItemOrder(id, itemOrder);

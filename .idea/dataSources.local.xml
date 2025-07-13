@@ -18,5 +18,23 @@
       </schema-mapping>
       <load-sources>user_and_system_sources</load-sources>
     </data-source>
+    <data-source name="oracle-service-test" uuid="54e25da9-f81a-4a9e-a801-2a46c5639c2d">
+      <database-info product="Oracle" version="Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production&#10;Version 19.28.0.1.0" jdbc-version="4.3" driver-name="Oracle JDBC driver" driver-version="23.5.0.24.07" dbms="ORACLE" exact-version="19.0.0.0.0" exact-driver-version="23.5">
+        <extra-name-characters>$#</extra-name-characters>
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>ADMIN</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="PUBLIC" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+      <load-sources>user_and_system_sources</load-sources>
+    </data-source>
   </component>
 </project>

@@ -21,7 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/ItemCart")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@Tag(name = "Item del Carrito",description = "Servicios de gestion de item de carrito para EcoMarket SPA")
 public class ItemCartController {
 
     @Autowired
@@ -31,9 +31,9 @@ public class ItemCartController {
     private ItemCartModelAssembler assembler;
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
+    @Operation(summary = "Obtener ItemCart",description = "Servicio GET para obtener todos los item del carrito existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Retorna los Item del Carrito"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public CollectionModel<EntityModel<ItemCarrito>> getAllItemCart(){
@@ -45,9 +45,9 @@ public class ItemCartController {
     }
 
     @PostMapping
-    @Operation(summary = "Agregar Producto al Carrito",description = "")
+    @Operation(summary = "Agregar Producto al Carrito",description = "Servicio POST para agregar todos los item al carrito")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Agrega los Item del Carrito",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemCarrito.class))),
             @ApiResponse(responseCode = "204", description = "")
@@ -58,9 +58,9 @@ public class ItemCartController {
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Producto del Carrito por ID",description = "")
+    @Operation(summary = "Obtener Producto del Carrito por ID",description = "Servicio GET para obtener los item del carrito por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Obtener los Item del Carrito"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public EntityModel<ItemCarrito> getItemCartById(@PathVariable int id){

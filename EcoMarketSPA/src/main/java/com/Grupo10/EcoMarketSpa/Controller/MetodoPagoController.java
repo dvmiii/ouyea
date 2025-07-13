@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/MetodoPago")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@Tag(name = "Metodo de pago",description = "Servicios de gestion del metodo de pago para EcoMarket SPA")
 public class MetodoPagoController {
 
     @Autowired
@@ -33,9 +33,9 @@ public class MetodoPagoController {
     private MetodoPagoModelAssembler assembler;
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
+    @Operation(summary = "Obtener Metodos de Pagos",description = "Servicio GET para obtener todos los metodos de pagos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Retorna los Metodos de Pagos"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
         public CollectionModel<EntityModel<MetodoPago>> getAllMetodoPagos() {
@@ -47,21 +47,21 @@ public class MetodoPagoController {
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Agregar Metodo de Pago",description = "Servicio Post para agregar todos los metodos de pagos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Metodos de Pagos Agregado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = MetodoPago.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String addMetodoPago(@RequestBody MetodoPago metodoPago) {
         return metodoPagoService.addMetodoPago(metodoPago);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener Metodo de Pago",description = "Servicio GET para obtener los metodos de pagos por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Registrar un Metodo de Pago"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String getMetodoPagoById(@PathVariable int id) {
@@ -69,9 +69,9 @@ public class MetodoPagoController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Eliminar Metodo de Pago",description = "Servicio DELETE para eliminar los metodos de pagos por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Eliminado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String deleteMetodoPago(@PathVariable int id) {
@@ -79,12 +79,12 @@ public class MetodoPagoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar Metodo de Pago",description = "Servicio PUT para actualizar los metodos de pagos por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "",
+            @ApiResponse(responseCode = "200", description = "Actualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = MetodoPago.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String updateMetodoPago(@PathVariable int id, @RequestBody MetodoPago metodoPago) {
         return metodoPagoService.updateMetodoPago(id, metodoPago);

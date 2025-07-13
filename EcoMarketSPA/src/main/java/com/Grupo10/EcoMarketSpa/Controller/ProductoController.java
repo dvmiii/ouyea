@@ -38,9 +38,6 @@ public class ProductoController {
         return productoService.getProductoById(id);
     }
 
-
- 
-
     @PostMapping
     @Operation(summary = "Agregar Producto", description = "Servicio POST para crear los productos")
     @ApiResponses(value = {
@@ -56,7 +53,7 @@ public class ProductoController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar Productos por ID", description = "Servicio DELETE para eliminar los productos existentes segun el ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Retorna producto"),
+            @ApiResponse(responseCode = "200", description = "Producto Eliminado"),
             @ApiResponse(responseCode = "404", description = "No se encuentran datos")
     })
     public String deleteProducto(@PathVariable int id) {

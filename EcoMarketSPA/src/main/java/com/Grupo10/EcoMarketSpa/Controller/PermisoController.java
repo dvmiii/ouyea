@@ -22,21 +22,20 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Permiso")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@RequestMapping("/permiso")
+@Tag(name = "Permisos",description = "Servicios de gestion de permisos para EcoMarket SPA")
 public class PermisoController {
 
     @Autowired
     private PermisoService permisoService;
-
     
     @Autowired
     private PermisoModelAssembler assembler;
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
+    @Operation(summary = "Obtener Permisos",description = "Servicio GET para obtener todos los permisos existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Retornar los Permisos"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
    public CollectionModel<EntityModel<Permiso>> getAllPermisos() {
@@ -49,21 +48,21 @@ public class PermisoController {
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los productos")
+    @Operation(summary = "Agregar Permisos",description = "Servicio POST para crear los permisos")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "",
+            @ApiResponse(responseCode = "202", description = "Permisos Agregados",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Permiso.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String addPermiso(@RequestBody Permiso permiso) {
         return permisoService.addPermisos(permiso);
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener Permisos",description = "Servicio GET para obtener los permisos por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Retorna un Permiso"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String getPermisoById(@PathVariable int id) {
@@ -71,9 +70,9 @@ public class PermisoController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Eliminar Permisos",description = "Servicio DELETE para eliminar los permisos por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Permiso Eliminado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String deletePermiso(@PathVariable int id) {
@@ -81,12 +80,12 @@ public class PermisoController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar Permisos",description = "Servicio PUT para actualizar los permisos por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Permiso Actualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Permiso.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String updatePermiso(@PathVariable int id, @RequestBody Permiso permiso) {
         return permisoService.updatePermiso(id, permiso);

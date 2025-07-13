@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Proveedor")
-@Tag(name = "Productos",description = "Servicios de gestion de productos para EcoMarket SPA")
+@RequestMapping("/proveedor")
+@Tag(name = "Proveedor",description = "Servicios de gestion de proveedor para EcoMarket SPA")
 public class ProveedorController {
 
     private final ProveedorService proveedorService;
@@ -27,9 +27,9 @@ public class ProveedorController {
     }
 
     @GetMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio GET para obtener todos los productos existentes")
+    @Operation(summary = "Obtener Proveedor",description = "Servicio GET para obtener todos los proveedores existentes")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = "Retorna los Productos"),
+            @ApiResponse(responseCode = "200",description = "Retorna los Proveedores"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String getAllProveedores() {
@@ -37,21 +37,21 @@ public class ProveedorController {
     }
 
     @PostMapping
-    @Operation(summary = "Obtener Productos",description = "Servicio POST para crear los productos")
+    @Operation(summary = "Agregar Proveedor",description = "Servicio POST para crear los proveedores")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Proveedor Agregado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Proveedor.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String addProveedor(@RequestBody Proveedor proveedor) {
         return proveedorService.addProveedor(proveedor);  
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Obtener Proveedor",description = "Servicio GET para obtener los proveedores por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Proveedor Retornado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String getProveedorById(@PathVariable int id) {
@@ -59,9 +59,9 @@ public class ProveedorController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "ELiminar Proveedor",description = "Servicio DELETE para eliminar los proveedores por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",description = ""),
+            @ApiResponse(responseCode = "200",description = "Proveedor Eliminado"),
             @ApiResponse(responseCode = "404",description = "No se encuentran datos")
     })
     public String deleteProveedor(@PathVariable int id) {
@@ -69,12 +69,12 @@ public class ProveedorController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Obtener Productos",description = "")
+    @Operation(summary = "Actualizar Proveedor",description = "Servicio PUT para actualizar los proveedores por ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "",
+            @ApiResponse(responseCode = "201", description = "Proveedor Actualizado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Proveedor.class))),
-            @ApiResponse(responseCode = "204", description = "")
+            @ApiResponse(responseCode = "204", description = "No hay contenido en la solicitud")
     })
     public String updateProveedor(@PathVariable int id, @RequestBody Proveedor proveedor) {
         return proveedorService.updateProveedor(id, proveedor); 
